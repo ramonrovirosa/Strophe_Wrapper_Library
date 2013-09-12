@@ -16,6 +16,5 @@ requirejs.config({
 });
 
 require(["chat"],function(){
-   //Chat.connect("ramon@localhost","ramon");
-    Chat.log("hello");
+    console.log("Chat Library ready to use!");
 });

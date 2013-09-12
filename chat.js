@@ -47,6 +47,7 @@ var Chat = {
     sendPresence : function(){
         Chat.connection.send($pres());
     },
+    messages : [],
     receiveMessage : function(msg){
         Chat.log("message received: ",msg);
         var to = msg.getAttribute('to');
@@ -61,6 +62,7 @@ var Chat = {
                 'type': type,
                 'message': Strophe.getText(body)
             }
+            Chat.messages.push(messageInfo);
         }
         // we must return true to keep the handler alive.
         // returning false would remove it after it finishes.
@@ -105,6 +107,7 @@ var Chat = {
         if (presence_type != 'error'){
             if (presence_type === 'unavailable'){
                 Chat.log("Contact: ", $(presence).attr('from'), " is offline");
+                Chat.presenceMessage[from] = "offline";
             }else{
                 var show = $(presence).find("show").text(); // this is what gives away, dnd, etc.
                 if ( (show === 'chat' || show === '') && (!Chat.presenceMessage[from])){
@@ -114,6 +117,7 @@ var Chat = {
                     Chat.sendPresence();
                 } else if (show === 'away'){
                     Chat.log("Contact: ", $(presence).attr('from'), " is offline");
+                    Chat.presenceMessage[from] = "offline";
                 }
             }
         }
@@ -123,7 +127,7 @@ var Chat = {
     log: function(){
         //If not connected
         if(!Chat.connection){
-            console.log("Error, not connected, please enter creddentials:\n " +
+            console.log("Error, not connected`, please enter creddentials:\n " +
                 "Chat.connect('jid','password')");
         }
         if(Chat.debuggingMode){
@@ -131,5 +135,16 @@ var Chat = {
                 console.log(arguments[i]);
             }
         }
+    },
+    getSubJID: function(Jid){
+        //for parsing JID: ramon@localhost/1234567
+        // to ramon@localhost
+        var subJID='';
+        for(i=0;i<JID.length;i++){
+            if(JID[i] === '/')
+                return subJID;
+            subJID+=JID[i];
+        }
+        return subJID;
     }
 }
