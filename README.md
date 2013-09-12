@@ -11,6 +11,27 @@ To use simply include the script:
 ####Source Code####
 The main source code can be found in [chat.js](chat.js)
 
+##Example##
+#####Gmail Connect Example#####
+  1. Open the `index.html` file in your browser and open up the command prompt(Ctr+Shft+i on Google Chrome). You should see the message `Chat Library ready to use! `
+  2. Next connect using your gmail username & password. Type into the command prompt: `Chat.connect("user.name@gmail.com","password","http://bosh.metajack.im:5280/xmpp-httpbind")`
+  3. Strophe will try to connect, and once connected will notify you with  `Strophe is connected.` Next we will send a message to ourselves. So type now `Chat.sendMessage("user.name@gmail.com", "Hello, How Are You!")`  
+      
+  Once sent, you will see:  
+    `I sent user.name@gmail.com: Hello, How Are You! `  
+  Once the message is received:  
+    ```message received:```  
+  ```<message to="user.name@gmail.com" from="user.name@gmail.com/12345" type="chat"><body>Hello, How Are You</body></message>```
+  4. Next type `Chat.getRoster()` to get an object array of the roster items as such `[{jid:"first.last@gmail.com", name:"first last",subscription:"both"},...,]`
+  5. Now lets get their status (online/offline). Type: `Chat.presenceMessage` & you will get a hash map of th econtacts name and status.   
+    `{user1@gmail.com/affc018f: "online", user2@gmail/2b6126f3: "offline",...}`
+  6. Finally lets disconnect from gmail: `Chat.disconnect()`  
+    * `Strophe is disconnecting.`  
+    * `Strophe is disconnected. `
+
+  Thats it. We are disconnected.
+    
+
 ##Functionality##
 ####Connecting####
   `Chat.connect('jabberID','password','BOSH_SERVICE','debuggingMode);`  
