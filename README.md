@@ -44,4 +44,9 @@ To Send a presence message to the xmpp server/other clients: `Chat.sendPresence(
 To Send a priority message to the xmpp server/other clients: `Chat.sendPriority('value')`
   * value is a string number ranging from -127 to 128.
   * Setting a negative priority value will mean that a client will appear offline & not receive any messages.(Instead message will be stored on the server for a positive client)
-  * The highest priority client for a given JID that is online will receive the message.
+  * The highest priority client for a given JID that is online will receive the message.  
+  
+####JID Utility####
+`Chat.getSubJID('Jid')` is a utility for parsing a JID with a session into the plain JID  
+  e.g: "ramon@localhost/1234567" => "ramon@localhost"  
+  It returns a string of the parsed JID.
