@@ -1,3 +1,5 @@
+
+
 var Chat = {
     BOSH_SERVICE: 'http://localhost:5280/http-bind',
     connection: null,
@@ -93,32 +95,6 @@ var Chat = {
         });
         Chat.connection.addHandler(Chat.presenceReceived,null,"presence");
     },
-//    presenceSent:false,
-//    presenceReceived : function(presence){
-//        Chat.log(presence);
-//        var presence_type = $(presence).attr('type'); // unavailable, subscribed, etc...
-//        var from = $(presence).attr('from'); // the jabber_id of the contact...
-//        if (presence_type != 'error'){
-//            if (presence_type === 'unavailable'){
-//               Chat.log("Contact: ", $(presence).attr('from'), " is offline");
-//            }else{
-//                var show = $(presence).find("show").text(); // this is what gives away, dnd, etc.
-//                if (show === 'chat' || show === ''){
-//                    // Mark contact as online
-//                    Chat.log("Contact: ", $(presence).attr('from'), " is online");
-//                    //On login, request presence of other users
-//                    if(!Chat.presenceSent){
-//                       Chat.connection.send($pres());
-//                       Chat.presenceSent = true;
-//                    }
-//                    //send back presence message
-//                } else if (show === 'away'){
-//                    Chat.log("Contact: ", $(presence).attr('from'), " is offline");
-//                }
-//            }
-//        }
-//        return true;
-//    },
     //A list of all the contacts online
     presenceMessage : {},
     presenceReceived : function(presence){
@@ -145,6 +121,11 @@ var Chat = {
         return true;
     },
     log: function(){
+        //If not connected
+        if(!Chat.connection){
+            console.log("Error, not connected, please enter creddentials:\n " +
+                "Chat.connect('jid','password')");
+        }
         if(Chat.debuggingMode){
             for(var i=0;i<arguments.length;i++){
                 console.log(arguments[i]);
