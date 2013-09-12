@@ -1,11 +1,17 @@
-Strophe_Wrapper_Library
+Strophe Wrapper Library
 =======================
 
-Strophe JavaScript Wrapper Library for Connecting, Messaging, &amp; Presence notifications from Contacts.
+Strophe JavaScript Wrapper Library for Connecting, Messaging, &amp; Presence notifications from Contacts.  
+Require.js was used for the dependencies [Strophe.js, JQuery].
+
+##How to Use the Library##
+To use simply include the script:  
+`<script data-main="main" src="js/require.js"></script>`
 
 ####Source Code####
 The main source code can be found in [chat.js](chat.js)
 
+##Functionality##
 ####Connecting####
   `Chat.connect('jabberID','password','BOSH_SERVICE','debuggingMode);`  
   * Bosh_Service: is the name of the BOSH Server and is an optional parameter. Default is 'http://localhost:5280/http-bind'
