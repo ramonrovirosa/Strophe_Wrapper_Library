@@ -1,8 +1,8 @@
 Strophe Wrapper Library
 =======================
 
-Strophe JavaScript Wrapper Library for Connecting, Messaging, &amp; Presence notifications from Contacts.  
-Require.js was used for the dependencies [Strophe.js, JQuery].
+[Strophe](http://strophe.im/strophejs/) JavaScript Wrapper Library for Connecting, Messaging, &amp; Presence notifications from Contacts.  
+[Require.js](http://requirejs.org/) was used for the dependencies [Strophe.js, JQuery].
 
 ##How to Use the Library##
 To use simply include the script:  
