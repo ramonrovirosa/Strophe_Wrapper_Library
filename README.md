@@ -31,7 +31,8 @@ The main source code can be found in [chat.js](chat.js)
     * `Strophe is disconnecting.`  
     * `Strophe is disconnected. `
 
-  Thats it. We are disconnected.
+  Thats it. We are disconnected.  
+  Allso works with [Facebook](http://stackoverflow.com/questions/5897833/architecture-to-facebook-chat-from-a-webpage-xmpp-strophe-punjab) & [Openfire](http://www.igniterealtime.org/projects/openfire/) & [Ejabberd](http://www.ejabberd.im/)
     
 
 ##Functionality##
