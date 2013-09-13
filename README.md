@@ -1,7 +1,7 @@
 Strophe Wrapper Library
 =======================
 
-[Strophe](http://strophe.im/strophejs/) JavaScript Wrapper Library for Connecting, Messaging, &amp; Presence notifications from Contacts.  
+[Strophe](http://strophe.im/strophejs/) JavaScript Wrapper Library for XMPP Web Connections, Messaging, &amp; Presence Notifications from Contacts.  
 [Require.js](http://requirejs.org/) was used for the dependencies [Strophe.js, JQuery].
 
 ##How to Use the Library##
@@ -13,6 +13,8 @@ The main source code can be found in [chat.js](chat.js)
 
 ##Example##
 #####Gmail Connect Example#####
+
+  **Note: Gmail may require you to verify your account, for security reasons**
   1. Open the `index.html` file in your browser and open up the command prompt(Ctr+Shft+i on Google Chrome). You should see the message `Chat Library ready to use! `
   2. Next connect using your gmail username & password. Type into the command prompt: `Chat.connect("user.name@gmail.com","password","http://bosh.metajack.im:5280/xmpp-httpbind")`
   3. Strophe will try to connect, and once connected will notify you with  `Strophe is connected.` Next we will send a message to ourselves. So type now `Chat.sendMessage("user.name@gmail.com", "Hello, How Are You!")`  
@@ -29,7 +31,8 @@ The main source code can be found in [chat.js](chat.js)
     * `Strophe is disconnecting.`  
     * `Strophe is disconnected. `
 
-  Thats it. We are disconnected.
+  Thats it. We are disconnected.  
+  Allso works with [Facebook](http://stackoverflow.com/questions/5897833/architecture-to-facebook-chat-from-a-webpage-xmpp-strophe-punjab) & [Openfire](http://www.igniterealtime.org/projects/openfire/) & [Ejabberd](http://www.ejabberd.im/)
     
 
 ##Functionality##
