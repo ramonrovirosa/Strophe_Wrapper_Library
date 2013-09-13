@@ -149,7 +149,6 @@ var Chat = {
             }
             subJID+=Jid[i];
         }
-
         return subJID;
     }
 }
