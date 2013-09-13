@@ -43,9 +43,11 @@ var Chat = {
     sendPriority : function(priority){
         Chat.connection.send($pres()
             .c("priority").t(priority));
+        Chat.log("Priority of " + priority + " sent to contacts.");
     },
     sendPresence : function(){
         Chat.connection.send($pres());
+        Chat.log("Presence Sent.");
     },
     messages : [],
     receiveMessage : function(msg){
@@ -127,7 +129,7 @@ var Chat = {
     log: function(){
         //If not connected
         if(!Chat.connection){
-            console.log("Error, not connected`, please enter creddentials:\n " +
+            console.log("Error, not connected`, please enter credentials:\n " +
                 "Chat.connect('jid','password')");
         }
         if(Chat.debuggingMode){
@@ -141,10 +143,13 @@ var Chat = {
         // to ramon@localhost
         var subJID='';
         for(i=0;i<Jid.length;i++){
-            if(Jid[i] === '/')
+            if(Jid[i] === '/'){
+                if(Chat.connected)Chat.log(Jid + " => " + subJID);
                 return subJID;
+            }
             subJID+=Jid[i];
         }
+
         return subJID;
     }
 }
