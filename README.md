@@ -1,7 +1,7 @@
 Strophe Wrapper Library
 =======================
 
-[Strophe](http://strophe.im/strophejs/) JavaScript Wrapper Library for Connecting, Messaging, &amp; Presence notifications from Contacts.  
+[Strophe](http://strophe.im/strophejs/) JavaScript Wrapper Library for XMPP Web Connections, Messaging, &amp; Presence Notifications from Contacts.  
 [Require.js](http://requirejs.org/) was used for the dependencies [Strophe.js, JQuery].
 
 ##How to Use the Library##
