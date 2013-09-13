@@ -140,10 +140,10 @@ var Chat = {
         //for parsing JID: ramon@localhost/1234567
         // to ramon@localhost
         var subJID='';
-        for(i=0;i<JID.length;i++){
-            if(JID[i] === '/')
+        for(i=0;i<Jid.length;i++){
+            if(Jid[i] === '/')
                 return subJID;
-            subJID+=JID[i];
+            subJID+=Jid[i];
         }
         return subJID;
     }
