@@ -32,24 +32,24 @@
 
     <h5 id="gmailconnectexample">Gmail Connect Example</h5>
 
-    <p><strong>Note: Gmail may require you to verify your account, for security reasons</strong>
-        1. Open the <code>index.html</code> file in your browser and open up the command prompt(Ctr+Shft+i on Google Chrome). You should see the message <code>Chat Library ready to use!</code>
-        2. Next connect using your gmail username &amp; password. Type into the command prompt: <code>Chat.connect("user.name@gmail.com","password","http://bosh.metajack.im:5280/xmpp-httpbind")</code>
+    <p><strong>Note: Gmail may require you to verify your account, for security reasons</strong></br>
+        1. Open the <code>index.html</code> file in your browser and open up the command prompt(Ctr+Shft+i on Google Chrome). You should see the message <code>Chat Library ready to use!</code></br>
+        2. Next connect using your gmail username &amp; password. Type into the command prompt: <code>Chat.connect("user.name@gmail.com","password","http://bosh.metajack.im:5280/xmpp-httpbind")</code> </br>
         3. Strophe will try to connect, and once connected will notify you with  <code>Strophe is connected.</code> Next we will send a message to ourselves. So type now <code>Chat.sendMessage("user.name@gmail.com", "Hello, How Are You!")</code>  </p>
 
-    <p>Once sent, you will see: <br />
+   Once sent, you will see: <br />
         <code>I sent user.name@gmail.com: Hello, How Are You!</code> <br />
         Once the message is received: <br />
         <code>message received:</code> <br />
         <code>&lt;message to="user.name@gmail.com" from="user.name@gmail.com/12345" type="chat"&gt;&lt;body&gt;Hello, How Are You&lt;/body&gt;&lt;/message&gt;</code>
-        4. Next type <code>Chat.getRoster()</code> to get an object array of the roster items as such <code>[{jid:"first.last@gmail.com", name:"first last",subscription:"both"},...,]</code>
+        4. Next type <code>Chat.getRoster()</code> to get an object array of the roster items as such <code>[{jid:"first.last@gmail.com", name:"first last",subscription:"both"},...,]</code>  </br>
         5. Now lets get their status (online/offline). Type: <code>Chat.presenceMessage</code> &amp; you will get a hash map of th econtacts name and status. <br />
-        <code>{user1@gmail.com/affc018f: "online", user2@gmail/2b6126f3: "offline",...}</code>
+        <code>{user1@gmail.com/affc018f: "online", user2@gmail/2b6126f3: "offline",...}</code></br>
         6. Finally lets disconnect from gmail: <code>Chat.disconnect()</code> <br />
         * <code>Strophe is disconnecting.</code> <br />
         * <code>Strophe is disconnected.</code></p>
 
-    <p>Thats it. We are disconnected. <br />
+    Thats it. We are disconnected. <br />
         Allso works with <a href="http://stackoverflow.com/questions/5897833/architecture-to-facebook-chat-from-a-webpage-xmpp-strophe-punjab">Facebook</a> &amp; <a href="http://www.igniterealtime.org/projects/openfire/">Openfire</a> &amp; <a href="http://www.ejabberd.im/">Ejabberd</a></p>
 
     <h2 id="functionality">Functionality</h2>
