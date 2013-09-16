@@ -4,111 +4,13 @@
     <title>Chat.js Demo</title>
     <script data-main="main" src="js/require.js"></script>
 </head>
-<script>
 
-</script>
 <body>
     <div style="text-align: center;">
         <h1>Chat.js</h1>
         <h3>By Ramon Rovirsa</h3>
         <a href="https://github.com/ramonrovirosa/Strophe_Wrapper_Library">Strophe_Wrapper_Library</a>
     </div>
-
-    <h1 id="strophewrapperlibrary">Strophe Wrapper Library</h1>
-
-    <p><a href="http://strophe.im/strophejs/">Strophe</a> JavaScript Wrapper Library for XMPP Web Connections, Messaging, &amp; Presence Notifications from Contacts. <br />
-        <a href="http://requirejs.org/">Require.js</a> was used for the dependencies [Strophe.js, JQuery].</p>
-
-    <h2 id="howtousethelibrary">How to Use the Library</h2>
-
-    <p>To use simply include the script: <br />
-        <code>&lt;script data-main="main" src="js/require.js"&gt;&lt;/script&gt;</code></p>
-
-    <h4 id="sourcecode">Source Code</h4>
-
-    <p>The main source code can be found in <a href="chat.js">chat.js</a></p>
-
-    <h2 id="example">Example</h2>
-
-    <h5 id="gmailconnectexample">Gmail Connect Example</h5>
-
-    <p><strong>Note: Gmail may require you to verify your account, for security reasons</strong></br>
-        1. Open the <code>index.html</code> file in your browser and open up the command prompt(Ctr+Shft+i on Google Chrome). You should see the message <code>Chat Library ready to use!</code></br>
-        2. Next connect using your gmail username &amp; password. Type into the command prompt: <code>Chat.connect("user.name@gmail.com","password","http://bosh.metajack.im:5280/xmpp-httpbind")</code> </br>
-        3. Strophe will try to connect, and once connected will notify you with  <code>Strophe is connected.</code> Next we will send a message to ourselves. So type now <code>Chat.sendMessage("user.name@gmail.com", "Hello, How Are You!")</code>  </p>
-
-   Once sent, you will see: <br />
-        <code>I sent user.name@gmail.com: Hello, How Are You!</code> <br />
-        Once the message is received: <br />
-        <code>message received:</code> <br />
-        <code>&lt;message to="user.name@gmail.com" from="user.name@gmail.com/12345" type="chat"&gt;&lt;body&gt;Hello, How Are You&lt;/body&gt;&lt;/message&gt;</code>
-        4. Next type <code>Chat.getRoster()</code> to get an object array of the roster items as such <code>[{jid:"first.last@gmail.com", name:"first last",subscription:"both"},...,]</code>  </br>
-        5. Now lets get their status (online/offline). Type: <code>Chat.presenceMessage</code> &amp; you will get a hash map of th econtacts name and status. <br />
-        <code>{user1@gmail.com/affc018f: "online", user2@gmail/2b6126f3: "offline",...}</code></br>
-        6. Finally lets disconnect from gmail: <code>Chat.disconnect()</code> <br />
-        * <code>Strophe is disconnecting.</code> <br />
-        * <code>Strophe is disconnected.</code></p>
-
-    Thats it. We are disconnected. <br />
-        Allso works with <a href="http://stackoverflow.com/questions/5897833/architecture-to-facebook-chat-from-a-webpage-xmpp-strophe-punjab">Facebook</a> &amp; <a href="http://www.igniterealtime.org/projects/openfire/">Openfire</a> &amp; <a href="http://www.ejabberd.im/">Ejabberd</a></p>
-
-    <h2 id="functionality">Functionality</h2>
-
-    <h4 id="connecting">Connecting</h4>
-
-    <p><code>Chat.connect('jabberID','password','BOSH_SERVICE','debuggingMode);</code> <br />
-        * Bosh_Service: is the name of the BOSH Server and is an optional parameter. Default is 'http://localhost:5280/http-bind'
-        * debuggingMode: if true than console will output debuggin messages, false to hide console messages.  </p>
-
-    <h4 id="disconnect">Disconnect:</h4>
-
-    <p><code>Chat.disconnect()</code></p>
-
-    <h4 id="rostercontacts">Roster/Contacts</h4>
-
-    <p><code>Chat.getRoster()</code> returns an object array of the users contacts that includes:
-        * jid
-        * name
-        * subscription  </p>
-
-    <h4 id="messaging">Messaging</h4>
-
-    <p><code>Chat.sendMessage('To','message')</code> <br />
-        * To: the JabberID who the message is addressed to..eg: 'ramon@localhost.com'
-        * message: The message string.</p>
-
-    <p>Received Message are handled by: <code>Chat.receiveMessage</code> <br />
-        <code>Chat.messages</code> is an array of the received messages for the current user. Each message in the Chat.messages array is an object with the following info:
-        * to
-        * from
-        * type
-        * messageString  </p>
-
-    <h4 id="presenceonlineoffline">Presence(Online/Offline)</h4>
-
-    <p><code>Chat.presenceMessage</code> is an Object Hashmap that includes the received presence status messages from the users contacts.
-        It will look something like such <code>{admin@localhost/affc018f: "online", ramon@localhost/2b6126f3: "offline"}</code></p>
-
-    <h4 id="log">Log</h4>
-
-    <p><code>Chat.log()</code> behaves just like Console.log() except will only display messages when <code>Chat.debugginMode === true</code></p>
-
-    <h4 id="sendpresence">SendPresence</h4>
-
-    <p>To Send a presence message to the xmpp server/other clients: <code>Chat.sendPresence()</code></p>
-
-    <h4 id="sendpriority">SendPriority</h4>
-
-    <p>To Send a priority message to the xmpp server/other clients: <code>Chat.sendPriority('value')</code>
-        * value is a string number ranging from -127 to 128.
-        * Setting a negative priority value will mean that a client will appear offline &amp; not receive any messages.(Instead message will be stored on the server for a positive client)
-        * The highest priority client for a given JID that is online will receive the message.  </p>
-
-    <h4 id="jidutility">JID Utility</h4>
-
-    <p><code>Chat.getSubJID('Jid')</code> is a utility for parsing a JID with a session into the plain JID <br />
-        e.g: "ramon@localhost/1234567" => "ramon@localhost" <br />
-        It returns a string of the parsed JID.</p>
 
 </body>
 </html>
