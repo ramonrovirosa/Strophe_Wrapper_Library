@@ -50,14 +50,28 @@ var Chat = {
         Chat.log("Presence Sent.");
     },
     messages : [],
+    chatStates:{},
     receiveMessage : function(msg){
         Chat.log("message received: ",msg);
         var to = msg.getAttribute('to');
         var from = msg.getAttribute('from');
         var type = msg.getAttribute('type');
-        var elems = msg.getElementsByTagName('body');
-        if(elems.length > 0){
-            var body = elems[0];
+        //var elems = msg.getElementsByTagName('body');
+
+        if(msg.getElementsByTagName('paused').length){
+            Chat.log("Sender is Paused");
+            Chat.chatStates[from] = "paused";
+        }
+        if(msg.getElementsByTagName('active').length){
+            Chat.log("Sender is Active");
+            Chat.chatStates[from] = "active" ;
+        }
+        if(msg.getElementsByTagName('composing').length){
+            Chat.log("Sender is composing");
+            Chat.chatStates[from] = "composing"
+        }
+        if(msg.getElementsByTagName('body').length){
+            var body = msg.getElementsByTagName('body')[0];
             var messageInfo = {
                 'to' : to,
                 'from': from,
@@ -125,6 +139,23 @@ var Chat = {
         }
 
         return true;
+    },
+    sendChatState:function(Jid,status,type){
+        if(Chat.connection && Jid){
+            Chat.connection.chatstates.init(Chat.connection);
+            if(status === "active" ){
+                Chat.connection.chatstates.sendActive(Jid,"chat");
+            }else if(status === "composing"){
+                Chat.connection.chatstates.sendComposing(Jid,"chat");
+            }else if(status === "paused"){
+                Chat.connection.chatstates.sendPaused(Jid,"chat");
+            }else
+                Chat.log("Error, try again");
+
+        }else{
+            Chat.log("Error,sorry not connected")
+        }
+
     },
     log: function(){
         //If not connected
