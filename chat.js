@@ -158,14 +158,15 @@ var Chat = {
         }
 
     },
-    discoSuccess : false,
+    discoSuccess : {},
     discoInfo: function(Jid){
         Chat.connection.disco.info(Jid,'',
             //Success callback
             function(status){Chat.log("Disc Info Success",status);
-                Chat.discoSuccess = true;},
+                Chat.discoSuccess[Jid] = true;},
             //error callback
-            function(status){Chat.log("Disc Info Error",status)}
+            function(status){Chat.log("Disc Info Error",status);
+                Chat.discoSuccess[Jid] = false;}
         );
     },
     log: function(){
