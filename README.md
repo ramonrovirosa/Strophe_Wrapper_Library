@@ -81,7 +81,12 @@ Received Message are handled by: `Chat.receiveMessage`
  To discover information on the Jid, call  
  `Chat.discoInfo('Jid')`
 
- To see if the discovery resulted in a success or failure, look in `Chat.discoSuccess`, where true means success, and false error.
+ To see if the discovery resulted in a success or failure, look in `Chat.discoSuccess`, where true means success, and false error.  
+
+####Ping####
+To ping another Jid:  
+`Chat.ping('Jid')`
+Ping success/error information is stored in `Chat.Pings` as true/false pairs.
 
   
 ####Log####
