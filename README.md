@@ -77,6 +77,12 @@ Received Message are handled by: `Chat.receiveMessage`
   
  Received state messages will be placed in a hash table: `Chat.chatStates`, which keeps track of the latest chat state message for each jid.
  
+####Service Discovery Info####
+ To discover information on the Jid, call  
+ `Chat.discoInfo('Jid')`
+
+ To see if the discovery resulted in a success or failure, look in `Chat.discoSuccess`, where true means success, and false error.
+
   
 ####Log####
   `Chat.log()` behaves just like Console.log() except will only display messages when `Chat.debugginMode === true`
