@@ -64,6 +64,19 @@ Received Message are handled by: `Chat.receiveMessage`
 ####Presence(Online/Offline)####
   `Chat.presenceMessage` is an Object Hashmap that includes the received presence status messages from the users contacts.
   It will look something like such `{admin@localhost/affc018f: "online", ramon@localhost/2b6126f3: "offline"}`
+
+####Message States(Paused,Active,Composing)  
+ To send the status of an active conversation, to the invididual who you are actively communicating with call:
+ `Chat.sendChatState('Jid','status','type')`
+  * Jid: To: the JabberID who the message is addressed to..eg: 'ramon@localhost.com'  
+  * status: The status of the person you are conversating with
+   1. Active
+   2. Composing
+   3. Paused
+  * Type: the message type, e.g "chat". This is an optinal parameter that will default to chat.
+  
+ Received state messages will be placed in a hash table: `Chat.chatStates`
+ 
   
 ####Log####
   `Chat.log()` behaves just like Console.log() except will only display messages when `Chat.debugginMode === true`
