@@ -35,6 +35,8 @@ var Chat = {
             Chat.connected = true;
             Chat.sendPresence();
             Chat.connection.addHandler(Chat.receiveMessage,null,'message');
+            //Add ping handler ~noy working...
+            //Chat.connection.ping.addPingHandler(Chat.receivePing);
             //getRoster from server
             var iq = $iq({type: 'get'}).c('query', {xmlns: 'jabber:iq:roster'});
             Chat.connection.sendIQ(iq, Chat.rosterReceived);
@@ -169,6 +171,24 @@ var Chat = {
                 Chat.discoSuccess[Jid] = false;}
         );
     },
+    Pings : {},
+    ping : function(Jid){
+      Chat.connection.ping.ping(Jid,
+          function(status){
+             Chat.log("Ping Success",status);
+             Chat.Pings[Jid] = true;
+          },
+          function(status){
+              Chat.log("Ping Error",status);
+              Chat.Pings[Jid] = false;
+          }
+      );
+    },
+//    receivePing : function(ping){
+//        Chat.log("Ping received!");
+//        Chat.connection.ping.pong( ping );
+//        return true;
+//    },
     log: function(){
         //If not connected
         if(!Chat.connection){
@@ -183,7 +203,8 @@ var Chat = {
     },
     getSubJID: function(Jid){
         //for parsing JID: ramon@localhost/1234567
-        // to ramon@localhost
+        // becomes...
+        // ramon@localhost
         var subJID='';
         for(i=0;i<Jid.length;i++){
             if(Jid[i] === '/'){
