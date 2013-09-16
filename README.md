@@ -75,7 +75,7 @@ Received Message are handled by: `Chat.receiveMessage`
    3. Paused
   * Type: the message type, e.g "chat". This is an optinal parameter that will default to chat.
   
- Received state messages will be placed in a hash table: `Chat.chatStates`
+ Received state messages will be placed in a hash table: `Chat.chatStates`, which keeps track of the latest chat state message for each jid.
  
   
 ####Log####
