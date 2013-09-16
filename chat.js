@@ -141,14 +141,15 @@ var Chat = {
         return true;
     },
     sendChatState:function(Jid,status,type){
+        var chatType = (type) ? type : "chat";
         if(Chat.connection && Jid){
             Chat.connection.chatstates.init(Chat.connection);
             if(status === "active" ){
-                Chat.connection.chatstates.sendActive(Jid,"chat");
+                Chat.connection.chatstates.sendActive(Jid,chatType);
             }else if(status === "composing"){
-                Chat.connection.chatstates.sendComposing(Jid,"chat");
+                Chat.connection.chatstates.sendComposing(Jid,chatType);
             }else if(status === "paused"){
-                Chat.connection.chatstates.sendPaused(Jid,"chat");
+                Chat.connection.chatstates.sendPaused(Jid,chatType);
             }else
                 Chat.log("Error, try again");
 
@@ -156,6 +157,16 @@ var Chat = {
             Chat.log("Error,sorry not connected")
         }
 
+    },
+    discoSuccess : false,
+    discoInfo: function(Jid){
+        Chat.connection.disco.info(Jid,'',
+            //Success callback
+            function(status){Chat.log("Disc Info Success",status);
+                Chat.discoSuccess = true;},
+            //error callback
+            function(status){Chat.log("Disc Info Error",status)}
+        );
     },
     log: function(){
         //If not connected

@@ -11,7 +11,8 @@ requirejs.config({
     shim: {
         'chat': ['js/jquery-2.0.3.min','js/strophe'],
         'js/strophe.chatstates' : ['chat'],
-        'main'    : ['js/strophe.chatstates']
+        'js/strophe.disco':['chat'],
+        'main'    : ['js/strophe.chatstates','js/strophe.disco']
     }
 
 });
