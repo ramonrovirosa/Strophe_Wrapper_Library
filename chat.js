@@ -60,7 +60,8 @@ var Chat = {
     registerUserInfo:{},
     registerUser : function(server,Jid,Password,BOSH_SERVICE){
         //XEP-0077 InBand Registration
-        Chat.registerUserInfo = {'Jid':Jid,'Password' : Password};  //possibly more reg fields later...
+        Chat.registerUserInfo = {'Jid':Jid,'Password' : Password};
+        //possibly more reg fields later... email,name
 
         Chat.connection = true;
         Chat.debuggingMode = true;
@@ -140,6 +141,79 @@ var Chat = {
              });
         });
         Chat.connection.addHandler(Chat.presenceReceived,null,"presence");
+    },
+    addUser:function(Jid, name, groups, call_back){
+        if(!Chat.userExists(Jid)){
+           var groups = (groups) ? groups : '';
+           Chat.connection.roster.add(Jid,name,groups,function(status){
+               Chat.Roster.push({'jid':Jid,
+                   'name':name,
+                   subscription: '' //NOTE:MIGHT BE ERROR PRONE TO NOT DECLARE SUBSCRIPTION...
+               });
+               Chat.log("User Added to roster: " + name,status,Chat.Roster);
+           });
+           Chat.log("Added user: "+ Jid);
+        } else
+            Chat.log("Error adding new User");
+    },
+    removeUser:function(Jid){
+        if(Chat.userExists(Jid)){
+            //Chat.connection.roster.get();
+            var iq = $iq({type: 'set'}).c('query', {xmlns: Strophe.NS.ROSTER}).c('item', {jid: Jid,
+                subscription: "remove"});
+            Chat.connection.sendIQ(iq, function(status){
+                Chat.log("Removed: "+Jid, status);
+            });
+            for(var i = Chat.Roster.length - 1; i >= 0; i--) {
+                if(Chat.Roster[i].jid === Jid) {
+                    Chat.Roster.splice(i, 1);
+                    Chat.log(Chat.Roster);
+                }
+            }
+        }else
+            Chat.log("Error removing user");
+    },
+    authorizeUser:function(Jid,message){
+        if(Chat.userExists(Jid)){
+            Chat.connection.roster.authorize(Jid,message);
+            Chat.log("Authorized: "+ Jid);
+        }else
+            Chat.log("Error Authorizing");
+    },
+    unauthorizeUser:function(Jid,message){
+        if(Chat.userExists(Jid)){
+            Chat.connection.roster.unauthorize(Jid,message);
+            Chat.log("Unauthorized: "+ Jid);
+        } else
+            Chat.log("Error Unauthorizing");
+
+    },
+    subscribeUser:function(Jid,message){
+        if(Chat.userExists(Jid)){
+        Chat.connection.roster.subscribe(Jid,message);
+        //May not need, but added anyways.
+        Chat.Roster.push({'jid': Jid,
+            'name': Jid,
+            subscription: '' //NOTE:MIGHT BE ERROR PRONE TO NOT DECLARE SUBSCRIPTION...
+        });
+        Chat.log("Subscribed: "+Jid);
+        }else
+            Chat.log("Error subscribing user");
+    },
+    unsubscribeUser:function(Jid,message){
+        if(Chat.userExists(Jid)){
+            Chat.connection.roster.unsubscribe(Jid,message);
+            Chat.log("Unsubscribed: "+Jid);
+        }else
+            Chat.log("Error unsubscribing");
+    },
+    userExists:function(Jid){
+        for(var i = Chat.Roster.length - 1; i >= 0; i--) {
+            if(Chat.Roster[i].jid === Jid) {
+                return true;
+            }
+        }
+        return false;
     },
     //A list of all the contacts online
     presenceMessage : {},
