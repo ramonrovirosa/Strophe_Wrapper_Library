@@ -46,9 +46,14 @@ The main source code can be found in [chat.js](chat.js)
 ####Roster/Contacts####
   `Chat.getRoster()` returns an object array of the users contacts that includes:
   * jid
-  * name
+  * name  
   * subscription  
-  
+
+To **add a user to your Contacts**/Roster, that already exists, call `Chat.addUser('Jid', 'name', 'groups')`  
+To **delete a user** from your Roster: `Chat.removeUser('Jid')`  
+To **authorize a user**:  `Chat.authorizeUser('Jid')`  
+To **unauthorize a user**:`Chat.unauthorizeUser('Jid')`
+
 ####Messaging####
   `Chat.sendMessage('To','message')`  
   * To: the JabberID who the message is addressed to..eg: 'ramon@localhost.com'
