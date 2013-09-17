@@ -52,7 +52,7 @@ The main source code can be found in [chat.js](chat.js)
 ####Messaging####
   `Chat.sendMessage('To','message')`  
   * To: the JabberID who the message is addressed to..eg: 'ramon@localhost.com'
-  * message: The message string.
+  * message: The message string.  
   
 Received Message are handled by: `Chat.receiveMessage`  
 `Chat.messages` is an array of the received messages for the current user. Each message in the Chat.messages array is an object with the following info: 
@@ -64,6 +64,13 @@ Received Message are handled by: `Chat.receiveMessage`
 ####Presence(Online/Offline)####
   `Chat.presenceMessage` is an Object Hashmap that includes the received presence status messages from the users contacts.
   It will look something like such `{admin@localhost/affc018f: "online", ramon@localhost/2b6126f3: "offline"}`
+
+####In-Band User Registration####
+ To [register](http://xmpp.org/extensions/xep-0077.html) a user call:
+ `Chat.registerUser('Server','Jid','Password','BOSH_SERVICE')`  
+ * Server: the server name e.g: 'example.com" or 'localhost'
+ * BOSH_SERVICE: The bosh server, an optional parameter that defaults to 'http://localhost:5280/http-bind'  
+ 
 
 ####Message States(Paused,Active,Composing)  
  To send the status of an active conversation, to the invididual who you are actively communicating with call:
