@@ -52,7 +52,8 @@ The main source code can be found in [chat.js](chat.js)
 To **add a user to your Contacts**/Roster, that already exists, call `Chat.addUser('Jid', 'name', 'groups')`  
 To **delete a user** from your Roster: `Chat.removeUser('Jid')`  
 To **authorize a user**:  `Chat.authorizeUser('Jid')`  
-To **unauthorize a user**:`Chat.unauthorizeUser('Jid')`
+To **unauthorize a user**:`Chat.unauthorizeUser('Jid')`  
+`userExists('Jid')` returns true if a user exists in the contacts list, false if it does not.
 
 ####Messaging####
   `Chat.sendMessage('To','message')`  
