@@ -13,11 +13,15 @@ requirejs.config({
         'js/strophe.chatstates' : ['chat'],
         'js/strophe.disco':['chat'],
         'js/strophe.ping':['chat'],
-        'main'    : ['js/strophe.chatstates','js/strophe.disco','js/strophe.ping']
+        'js/strophe.register':['chat'],
+        'main'    : ['js/strophe.chatstates','js/strophe.disco','js/strophe.ping','js/strophe.register']
     }
 
 });
 
 require(["chat"],function(){
-    console.log("Chat Library ready to use!");
+    if(Chat)
+        console.log("Chat Library ready to use!");
+    else
+        console.log("Error");
 });

@@ -42,6 +42,32 @@ var Chat = {
             Chat.connection.sendIQ(iq, Chat.rosterReceived);
         }
     },
+    onRegister : function(status){
+        if (status === Strophe.Status.REGISTER) {
+            Chat.log("Registering");
+            Chat.connection.register.fields.username =Chat.registerUserInfo.Jid;
+            Chat.connection.register.fields.password = Chat.registerUserInfo.Password;
+            Chat.connection.register.submit();
+        } else if (status === Strophe.Status.REGISTERED) {
+            Chat.log("Registered!");
+            Chat.connection.authenticate();
+        } else if (status === Strophe.Status.CONNECTED) {
+            Chat.log("logged in!");
+        } else {
+            // every other status a connection.connect would receive
+        }
+    },
+    registerUserInfo:{},
+    registerUser : function(server,Jid,Password,BOSH_SERVICE){
+        //XEP-0077 InBand Registration
+        Chat.registerUserInfo = {'Jid':Jid,'Password' : Password};  //possibly more reg fields later...
+
+        Chat.connection = true;
+        Chat.debuggingMode = true;
+        Chat.BOSH_SERVICE = (BOSH_SERVICE) ? BOSH_SERVICE : Chat.BOSH_SERVICE;
+        Chat.connection = new Strophe.Connection(Chat.BOSH_SERVICE);
+        Chat.connection.register.connect(server, Chat.onRegister);
+    },
     sendPriority : function(priority){
         Chat.connection.send($pres()
             .c("priority").t(priority));
