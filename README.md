@@ -73,8 +73,10 @@ Received Message are handled by: `Chat.receiveMessage`
 
 ####In-Band User Registration####
  To [register](http://xmpp.org/extensions/xep-0077.html) a user call:
- `Chat.registerUser('Server','Jid','Password','BOSH_SERVICE')`  
+ `Chat.registerUser('Server','Username','Password','BOSH_SERVICE')`  
  * Server: the server name e.g: 'example.com" or 'localhost'
+ * Username: If I wanted to create a new user santiago@localhost, I would pass in 'santiago' for the username field.  
+   e.g `Chat.registerUser('localhost','santiago','pass','http://localhost:5280/http-bind')`
  * BOSH_SERVICE: The bosh server, an optional parameter that defaults to 'http://localhost:5280/http-bind'  
  
 
