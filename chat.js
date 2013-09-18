@@ -42,6 +42,8 @@ var Chat = {
             Chat.connection.sendIQ(iq, Chat.rosterReceived);
             //GetPubSub Nodes
             Chat.discoverNodes();
+            //getNodes user is subscribed to
+            Chat.getSubscriptions();
         }
     },
     onRegister : function(status){
@@ -358,6 +360,40 @@ var Chat = {
             },
             Chat.connection.jid
         );
+    },
+    pubsubUnsubscribe:function(nodeName){
+        Chat.connection.pubsub.unsubscribe(
+            nodeName,
+           Chat.getSubJID(Chat.connection.jid),
+           '',
+           function(status){
+                Chat.log("Succesfully unsubscribed from node",status);
+           },
+           function(status){
+               Chat.log("Error unsubscribing from node",status);
+           }
+        );
+    },
+    subscribedNodes:[],
+    //get all the nodes an individual is subscribed to.
+    getSubscriptions:function(){
+        Chat.connection.pubsub.getSubscriptions(function(status){
+            Chat.log("Got Subscriptions, stored in Chat.subscribedNodes");
+            $(status).find("subscription").each(function() {
+                Chat.subscribedNodes.push($(this).attr('node'));
+            });
+        });
+    },
+    getNodeSubscriptions: function(nodeName){
+        var subscribers = [];
+        Chat.connection.pubsub.getNodeSubscriptions(nodeName,function(status){
+            Chat.log("Got all subscribers to the node",status);
+            $(status).find("subscription").each(function() {
+                subscribers.push($(this).attr('jid'));
+            });
+
+        });
+        return subscribers;
     },
     log: function(){
         //If not connected
