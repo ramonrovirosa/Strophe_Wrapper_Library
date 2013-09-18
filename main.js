@@ -15,7 +15,8 @@ requirejs.config({
         'js/strophe.ping':['chat'],
         'js/strophe.register':['chat'],
         'js/strophe.roster'  :['chat'],
-        'main'    : ['js/strophe.chatstates','js/strophe.disco','js/strophe.ping','js/strophe.register','js/strophe.roster']
+        'js/strophe.pubsub'  :['chat'],
+        'main'    : ['js/strophe.chatstates','js/strophe.disco','js/strophe.ping','js/strophe.register','js/strophe.roster','js/strophe.pubsub']
     }
 });
 

@@ -40,6 +40,8 @@ var Chat = {
             //getRoster from server
             var iq = $iq({type: 'get'}).c('query', {xmlns: 'jabber:iq:roster'});
             Chat.connection.sendIQ(iq, Chat.rosterReceived);
+            //GetPubSub Nodes
+            Chat.discoverNodes();
         }
     },
     onRegister : function(status){
@@ -87,19 +89,30 @@ var Chat = {
         var type = msg.getAttribute('type');
         //var elems = msg.getElementsByTagName('body');
 
-        if(msg.getElementsByTagName('paused').length){
+        //pubsub message
+        if(from === Chat.pubsubJid && msg.getElementsByTagName('summary').length){
+            Chat.log("pubsub message",msg.getElementsByTagName('summary')[0]);
+            var items = msg.getElementsByTagName('items');
+            var nodeName = items[0].getAttribute('node');
+            Chat.pubsubMessages.push({
+                "message" : Strophe.getText(msg.getElementsByTagName('summary')[0]),
+                "type"    : "received",
+                "nodeName"    : nodeName
+            });
+        }
+        else if(msg.getElementsByTagName('paused').length){
             Chat.log("Sender is Paused");
             Chat.chatStates[from] = "paused";
         }
-        if(msg.getElementsByTagName('active').length){
+        else if(msg.getElementsByTagName('active').length){
             Chat.log("Sender is Active");
             Chat.chatStates[from] = "active" ;
         }
-        if(msg.getElementsByTagName('composing').length){
+        else if(msg.getElementsByTagName('composing').length){
             Chat.log("Sender is composing");
             Chat.chatStates[from] = "composing"
         }
-        if(msg.getElementsByTagName('body').length){
+        else if(msg.getElementsByTagName('body').length){
             var body = msg.getElementsByTagName('body')[0];
             var messageInfo = {
                 'to' : to,
@@ -142,7 +155,8 @@ var Chat = {
         });
         Chat.connection.addHandler(Chat.presenceReceived,null,"presence");
     },
-    addUser:function(Jid, name, groups, call_back){
+    //add user to your roster
+    addUser:function(Jid, name, groups){
         if(!Chat.userExists(Jid)){
            var groups = (groups) ? groups : '';
            Chat.connection.roster.add(Jid,name,groups,function(status){
@@ -156,6 +170,7 @@ var Chat = {
         } else
             Chat.log("Error adding new User");
     },
+    //remove user from your roster
     removeUser:function(Jid){
         if(Chat.userExists(Jid)){
             //Chat.connection.roster.get();
@@ -284,11 +299,66 @@ var Chat = {
           }
       );
     },
-//    receivePing : function(ping){
-//        Chat.log("Ping received!");
-//        Chat.connection.ping.pong( ping );
-//        return true;
-//    },
+    discoverNodes: function(){
+         Chat.connection.pubsub.discoverNodes(
+             function(iq){
+                 $(iq).find("item").each(function() {
+                     Chat.pubsubNodes.push($(this).attr('node'));
+                     if(!Chat.pubsubJid){
+                         Chat.pubsubJid = $(this).attr('jid');
+                     }
+                 });
+                 Chat.log("success retreiving nodes, stored in array Chat.pubsubNodes",iq);
+             },
+             function(status){Chat.log("error",status)}
+         );
+    },
+    pubsubNodes:[],
+    pubsubJid:false,
+    pubsubMessages:[],
+    //nodeArray
+    createNode: function(nodeName,options){
+        var options=(options)? options : {};
+        Chat.connection.pubsub.createNode(
+            nodeName,
+            options,
+            function(status){
+                Chat.log("Node created",status);
+                Chat.connection.send($pres());
+            }
+        );
+    },
+    pubsubPublish:function(nodeName,message){
+           Chat.connection.pubsub.publish(
+               nodeName,
+               message,
+               Chat.onPublish
+           );
+        Chat.pubsubMessages.push({
+            "message" : message,
+            "type"    : "sent",
+            "nodeName"    : nodeName
+        });
+    },
+    onPublish:function(status){
+        Chat.log("Message published",status);
+        return true;
+    },
+    pubsubSubscribe:function(nodeName,options){
+        var options = (options) ? options : {};
+        Chat.connection.pubsub.subscribe(
+            nodeName,
+            options,
+            Chat.messageReceived,
+            function(status){
+                Chat.log("Subscribe node created",status)
+            },
+            function(status){
+                console.log("error subscribing to node");
+            },
+            Chat.connection.jid
+        );
+    },
     log: function(){
         //If not connected
         if(!Chat.connection){
