@@ -69,8 +69,11 @@ Received Message are handled by: `Chat.receiveMessage`
   
 ####Publish/Subscribe(PubSub)
 To create a node: `Chat.createNode('nodeName',{options})`  
-[Options details](http://xmpp.org/extensions/xep-0060.html#owner-create). By default this is an optional parameter with the default options.
-
+[Options details](http://xmpp.org/extensions/xep-0060.html#owner-create). By default this is an optional parameter with the default options.  
+`Chat.pubsubNodes` contains a list of all the nodes on the server.
+`Chat.pubsubJid` contains the Jid of the pubsub node e.g: pubsub.localhost
+To publish to a new node: `Chat.pubsubPublish('nodeName','message')`
+To subscribe to a node: `Chat.pubsubSubscribe('nodeName',{options})`
 
 ####Presence(Online/Offline)####
   `Chat.presenceMessage` is an Object Hashmap that includes the received presence status messages from the users contacts.
