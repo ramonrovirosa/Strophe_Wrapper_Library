@@ -76,6 +76,9 @@ Received Message are handled by: `Chat.receiveMessage`
  * To subscribe to a node: `Chat.pubsubSubscribe('nodeName',{options})`  
  [Options details](http://xmpp.org/extensions/xep-0060.html#owner-create). By default this is an optional parameter with the default options.  
  * To unsubscribe: `Chat.pubsubUnsubscribe('nodeName')`  
+ * To get the subscriptions for the current user(Jid): `Chat.getSubscriptions()`
+ * To get the subscribers for an individual node: `Chat.getNodeSubscriptions('nodeName')`  
+ 
  
 ####Presence(Online/Offline)####
   `Chat.presenceMessage` is an Object Hashmap that includes the received presence status messages from the users contacts.
