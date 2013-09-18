@@ -67,6 +67,11 @@ Received Message are handled by: `Chat.receiveMessage`
   * type
   * messageString  
   
+####Publish/Subscribe(PubSub)
+To create a node: `Chat.createNode('nodeName',{options})`  
+[Options details](http://xmpp.org/extensions/xep-0060.html#owner-create). By default this is an optional parameter with the default options.
+
+
 ####Presence(Online/Offline)####
   `Chat.presenceMessage` is an Object Hashmap that includes the received presence status messages from the users contacts.
   It will look something like such `{admin@localhost/affc018f: "online", ramon@localhost/2b6126f3: "offline"}`
