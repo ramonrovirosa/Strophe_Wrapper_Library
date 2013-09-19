@@ -142,3 +142,4 @@ To Send a priority message to the xmpp server/other clients: `Chat.sendPriority(
 `Chat.getSubJID('Jid')` is a utility for parsing a JID with a session into the plain JID  
   e.g: "ramon@localhost/1234567" => "ramon@localhost"  
   It returns a string of the parsed JID.
+ * The Jid parameter is optional, and by default if no Jid is specified, the Chat.connection.jid will be used.
