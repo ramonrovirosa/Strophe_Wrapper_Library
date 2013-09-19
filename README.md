@@ -128,7 +128,8 @@ Ping success/error information is stored in `Chat.Pings` as true/false pairs.
 
   
 ####Log####
-  `Chat.log()` behaves just like Console.log() except will only display messages when `Chat.debugginMode === true`
+  `Chat.log()` behaves just like Console.log() except will only display messages when `Chat.debugginMode === true`  
+  To turn off console logs: `Chat.debugginMode = false`
 
 ####SendPresence####
 To Send a presence message to the xmpp server/other clients: `Chat.sendPresence()`
