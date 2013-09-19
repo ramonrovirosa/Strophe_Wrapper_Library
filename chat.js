@@ -1,5 +1,7 @@
-
-
+/**
+ * Ramon Rovirsa
+ * Strophe.js: http://strophe.im/strophejs/
+**/
 var Chat = {
     BOSH_SERVICE: 'http://localhost:5280/http-bind',
     connection: null,
@@ -394,6 +396,51 @@ var Chat = {
 
         });
         return subscribers;
+    },
+    //NOT WORKING ON OPENFIRE YET!!
+    mucCreateRoom:function(roomName){
+        //send presence stanza
+        //http://xmpp.org/extensions/xep-0045.html#createroom
+        var presence = $pres({
+            from : Chat.connection.jid,
+            to:  roomName
+        }).c('x',{'xmlns':'http://jabber.org/protocol/muc'});
+        Chat.connection.send(presence.tree());
+
+
+        Chat.connection.muc.createInstantRoom(roomName,
+            function(status){
+               Chat.log("Succesfully created ChatRoom",status);
+            },
+            function(status){
+               Chat.log("Error creating ChatRoom",status);
+            }
+        );
+    },
+    mucJoin:function(roomName,nickname,password){
+        Chat.connection.muc.join(roomName,nickname,Chat.messageReceived,
+                                Chat.presenceReceived,Chat.rosterReceived,password);
+    },
+    mucLeave:function(roomName,nickName,exitMessage){
+        Chat.connection.muc.leave(
+            roomName,
+            nickName,
+            function(status){
+                Chat.log("Leaving Room",status);
+            },
+            exitMessage
+        );
+    },
+    mucListRooms:function(serverName){
+        Chat.connection.muc.listRooms(
+            serverName,
+            function(status){
+                Chat.log("List of Chat Rooms", status);
+            },
+            function(status){
+                Chat.log("Error getting Chat Rooms",status);
+            }
+        );
     },
     log: function(){
         //If not connected
