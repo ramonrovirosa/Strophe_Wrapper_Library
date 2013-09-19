@@ -93,8 +93,13 @@ var Chat = {
         var type = msg.getAttribute('type');
         //var elems = msg.getElementsByTagName('body');
 
+        //GroupChat message
+        if(type == 'groupchat'){
+            Chat.log("Group Chat message");
+        }
+
         //pubsub message
-        if(from === Chat.pubsubJid && msg.getElementsByTagName('summary').length){
+        else if(from === Chat.pubsubJid && msg.getElementsByTagName('summary').length){
             Chat.log("pubsub message",msg.getElementsByTagName('summary')[0]);
             var items = msg.getElementsByTagName('items');
             var nodeName = items[0].getAttribute('node');
@@ -258,7 +263,6 @@ var Chat = {
                 }
             }
         }
-
         return true;
     },
     sendChatState:function(Jid,status,type){
@@ -277,7 +281,6 @@ var Chat = {
         }else{
             Chat.log("Error,sorry not connected")
         }
-
     },
     discoSuccess : {},
     discoInfo: function(Jid){
@@ -397,17 +400,18 @@ var Chat = {
         });
         return subscribers;
     },
-    //NOT WORKING ON OPENFIRE YET!!
-    mucCreateRoom:function(roomName){
-        //send presence stanza
+    //Experimental Method
+    mucSendPresence:function(roomName){
         //http://xmpp.org/extensions/xep-0045.html#createroom
         var presence = $pres({
             from : Chat.connection.jid,
             to:  roomName
         }).c('x',{'xmlns':'http://jabber.org/protocol/muc'});
+        Chat.log(presence.tree());
         Chat.connection.send(presence.tree());
-
-
+    },
+    //Experimental Method
+    mucCreateRoom:function(roomName){
         Chat.connection.muc.createInstantRoom(roomName,
             function(status){
                Chat.log("Succesfully created ChatRoom",status);
@@ -418,10 +422,12 @@ var Chat = {
         );
     },
     mucJoin:function(roomName,nickname,password){
+        var nickname = (nickname) ? nickname : Chat.getSubJID(Chat.connection.jid);
         Chat.connection.muc.join(roomName,nickname,Chat.messageReceived,
                                 Chat.presenceReceived,Chat.rosterReceived,password);
     },
     mucLeave:function(roomName,nickName,exitMessage){
+
         Chat.connection.muc.leave(
             roomName,
             nickName,
@@ -431,9 +437,9 @@ var Chat = {
             exitMessage
         );
     },
-    mucListRooms:function(serverName){
+    mucListRooms:function(){
         Chat.connection.muc.listRooms(
-            serverName,
+            Strophe.getDomainFromJid(Chat.connection.jid),
             function(status){
                 Chat.log("List of Chat Rooms", status);
             },
@@ -441,6 +447,13 @@ var Chat = {
                 Chat.log("Error getting Chat Rooms",status);
             }
         );
+    },
+    //to send a message to everyone on the group chat
+    //in the chatRoom field specify....the chat room subdomain e.g groupchat.localhost
+    mucSendMessage:function(chatRoom,nickname,message,type){
+        var nickname = (nickname) ? nickname : Chat.getSubJID(Chat.connection.jid);
+        Chat.connection.muc.message(chatRoom,nickname,message,'',type);
+        Chat.log("Sent message to: " + chatRoom);
     },
     log: function(){
         //If not connected
