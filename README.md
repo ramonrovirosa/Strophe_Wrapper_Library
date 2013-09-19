@@ -79,6 +79,16 @@ Received Message are handled by: `Chat.receiveMessage`
  * To get the subscriptions for the current user(Jid): `Chat.getSubscriptions()`
  * To get the subscribers for an individual node: `Chat.getNodeSubscriptions('nodeName')`  
  
+####Group Chat/Multiple User Chat (MUC) 
+ * To get a list of all the saved(persistent) Group Chats: `Chat.mucListRooms()`
+ * To join a chat session: `Chat.mucJoin('roomName','nickname','password')`
+ * To leave a chat session: `Chat.mucLeave('exitMessage')`  
+   + The exitMessage parameter is an optional exit message
+ * To send a message to everyone in the chat conversation: `Chat.mucSendMessage('chatRoom','message','nickname','type')`
+   + Nickname: is an optional parameter that is the nickname you want others receiving the message to see you as...default is your Jid.
+   + Type: an optional parameter by default type='groupchat', but can also be chat for individual chat messages to a single jid.  
+ * To send a presence message for room createion call: `Chat.mucSendPresence('roomName')`
+ * To create an instant room: `Chat.mucCreateRoom('roomName')` **This is still a little buggy, so might not work for you**
  
 ####Presence(Online/Offline)####
   `Chat.presenceMessage` is an Object Hashmap that includes the received presence status messages from the users contacts.
