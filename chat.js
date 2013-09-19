@@ -421,19 +421,19 @@ var Chat = {
             }
         );
     },
+    mucSessionInfo:{},
     mucJoin:function(roomName,nickname,password){
         var nickname = (nickname) ? nickname : Chat.getSubJID(Chat.connection.jid);
         Chat.connection.muc.join(roomName,nickname,Chat.messageReceived,
                                 Chat.presenceReceived,Chat.rosterReceived,password);
+        Chat.mucSessionInfo['roomName'] = roomName;
+        Chat.mucSessionInfo['nickname'] = nickname;
     },
-    mucLeave:function(roomName,nickName,exitMessage){
-
+    mucLeave:function(exitMessage){
         Chat.connection.muc.leave(
-            roomName,
-            nickName,
-            function(status){
-                Chat.log("Leaving Room",status);
-            },
+            Chat.mucSessionInfo['roomName'],
+            Chat.mucSessionInfo['nickname'],
+            Chat.presenceReceived,
             exitMessage
         );
     },
@@ -450,7 +450,7 @@ var Chat = {
     },
     //to send a message to everyone on the group chat
     //in the chatRoom field specify....the chat room subdomain e.g groupchat.localhost
-    mucSendMessage:function(chatRoom,nickname,message,type){
+    mucSendMessage:function(chatRoom,message,nickname,type){
         var nickname = (nickname) ? nickname : Chat.getSubJID(Chat.connection.jid);
         Chat.connection.muc.message(chatRoom,nickname,message,'',type);
         Chat.log("Sent message to: " + chatRoom);
@@ -471,6 +471,7 @@ var Chat = {
         //for parsing JID: ramon@localhost/1234567
         // becomes...
         // ramon@localhost
+        var Jid = (Jid)?Jid:Chat.connection.Jid;
         var subJID='';
         for(i=0;i<Jid.length;i++){
             if(Jid[i] === '/'){
