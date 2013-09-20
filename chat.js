@@ -135,16 +135,24 @@ var Chat = {
         // returning false would remove it after it finishes.
         return true;
     },
-    sendMessage : function(messgeTo,message){
-        var reply = $msg({to: messgeTo, from: Chat.connection.jid, type: 'chat'})
-            .c("body").t(message);
-        //You are connected & can send a message
-        if(Chat.connected == true  ) {
-            Chat.connection.send(reply.tree());
-            Chat.log('I sent ' + messgeTo + ': ' + message);
-        }else { //not connected, cannot send message.
-            Chat.log("Message not sent, not connected!")
+    sendMessage : function(messgeTo,message,type){
+        var messagetype = (type) ? type : 'chat';
+        var reply;
+        if (messagetype === 'groupchat') {
+            reply = $msg({to: messgeTo,
+                          from: Chat.connection.jid,
+                          type: messagetype,
+                          id: Chat.connection.getUniqueId()
+            }).c("body", {xmlns: Strophe.NS.CLIENT}).t(message);
         }
+        else{
+            reply = $msg({to: messgeTo,
+                          from: Chat.connection.jid,
+                          type: messagetype
+            }).c("body").t(message);
+        }
+        Chat.connection.send(reply.tree());
+        Chat.log('I sent ' + messgeTo + ': ' + message, reply.tree());
     },
     Roster : [],
     getRoster : function(){
@@ -464,13 +472,10 @@ var Chat = {
            }
        );
     },
-    //to send a message to everyone on the group chat
-    //in the chatRoom field specify....the chat room subdomain e.g roomname@groupchat.localhost
-    mucSendMessage:function(roomName,message,nickname,type){
-        var nickname = (nickname) ? nickname : Chat.getSubJID(Chat.connection.jid);
-        Chat.connection.muc.message(roomName,message,null,type);
-        //Chat.log("Sent message to: " + roomName);
-    },
+
+    //to send a muc message,
+    //call Chat.sendMessage("chatRoom@conference.server","my message text","groupchat")
+
     log: function(){
         //If not connected
         if(!Chat.connection){
