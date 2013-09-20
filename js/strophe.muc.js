@@ -162,36 +162,39 @@ Strophe.addConnectionPlugin('muc', {
 
     message: function(room, nick, message, html_message, type) {
         var msg, msgid, parent, room_nick;
-        room_nick = this.test_append_nick(room, nick);
-        type = type || (nick != null ? "chat" : "groupchat");
+        //room_nick = this.test_append_nick(room, nick);
+        Chat.log("roomNick", room_nick);
+        type = type ? type : 'groupchat';
         msgid = this._connection.getUniqueId();
         msg = $msg({
-            to: room_nick,
+            to: room,
             from: this._connection.jid,
             type: type,
             id: msgid
         }).c("body", {
                 xmlns: Strophe.NS.CLIENT
             }).t(message);
-        msg.up();
-        if (html_message != null) {
-            msg.c("html", {
-                xmlns: Strophe.NS.XHTML_IM
-            }).c("body", {
-                    xmlns: Strophe.NS.XHTML
-                }).t(html_message);
-            if (msg.node.childNodes.length === 0) {
-                parent = msg.node.parentNode;
-                msg.up().up();
-                msg.node.removeChild(parent);
-            } else {
-                msg.up().up();
-            }
-        }
-        msg.c("x", {
-            xmlns: "jabber:x:event"
-        }).c("composing");
-        this._connection.send(msg);
+        //msg.up();
+//        if (html_message != null) {
+//            Chat.log("html message");
+//            msg.c("html", {
+//                xmlns: Strophe.NS.XHTML_IM
+//            }).c("body", {
+//                    xmlns: Strophe.NS.XHTML
+//                }).t(html_message);
+//            if (msg.node.childNodes.length === 0) {
+//                parent = msg.node.parentNode;
+//                msg.up().up();
+//                msg.node.removeChild(parent);
+//            } else {
+//                msg.up().up();
+//            }
+//        }
+//        msg.c("x", {
+//            xmlns: "jabber:x:event"
+//        });
+        Chat.log("msg sent",msg.tree());
+        this._connection.send(msg.tree());
         return msgid;
     },
     /*Function

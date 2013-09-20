@@ -448,12 +448,28 @@ var Chat = {
             }
         );
     },
+
+    mucQueryOccupants:function(roomName){
+       Chat.connection.muc.queryOccupants(
+           roomName,
+           function(status){
+               Chat.log("Got Group Chat Members",status);
+//               $(status).find("item").each(function() {
+//                  //Do something with $(this).attr('node')
+//                   });
+//               });
+           },
+           function(status){
+               Chat.log("Error Getting Group Chat Members",status);
+           }
+       );
+    },
     //to send a message to everyone on the group chat
-    //in the chatRoom field specify....the chat room subdomain e.g groupchat.localhost
-    mucSendMessage:function(chatRoom,message,nickname,type){
+    //in the chatRoom field specify....the chat room subdomain e.g roomname@groupchat.localhost
+    mucSendMessage:function(roomName,message,nickname,type){
         var nickname = (nickname) ? nickname : Chat.getSubJID(Chat.connection.jid);
-        Chat.connection.muc.message(chatRoom,nickname,message,'',type);
-        Chat.log("Sent message to: " + chatRoom);
+        Chat.connection.muc.message(roomName,nickname,message,null,type);
+        //Chat.log("Sent message to: " + roomName);
     },
     log: function(){
         //If not connected
