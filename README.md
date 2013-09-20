@@ -84,7 +84,7 @@ Received Message are handled by: `Chat.receiveMessage`
  * To join a chat session: `Chat.mucJoin('roomName','nickname','password')`
  * To leave a chat session: `Chat.mucLeave('exitMessage')`  
    + The exitMessage parameter is an optional exit message
- * To send a message to everyone in the chat conversation: `Chat.mucSendMessage('chatRoom','message','nickname','type')`
+ * To send a message to everyone in the chat conversation: `Chat.mucSendMessage('roomName','message','type')`
    + Nickname: is an optional parameter that is the nickname you want others receiving the message to see you as...default is your Jid.
    + Type: an optional parameter by default type='groupchat', but can also be chat for individual chat messages to a single jid.  
  * To send a presence message for room createion call: `Chat.mucSendPresence('roomName')`
