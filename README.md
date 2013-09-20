@@ -56,9 +56,10 @@ To **unauthorize a user**:`Chat.unauthorizeUser('Jid')`
 `userExists('Jid')` returns true if a user exists in the contacts list, false if it does not.
 
 ####Messaging####
-  `Chat.sendMessage('To','message')`  
+  `Chat.sendMessage('To','message','type')`  
   * To: the JabberID who the message is addressed to..eg: 'ramon@localhost.com'
   * message: The message string.  
+  * type is the message type. Optional parameter, default is chat. Can also be groupchat, for muc messages.
   
 Received Message are handled by: `Chat.receiveMessage`  
 `Chat.messages` is an array of the received messages for the current user. Each message in the Chat.messages array is an object with the following info: 
@@ -84,9 +85,11 @@ Received Message are handled by: `Chat.receiveMessage`
  * To join a chat session: `Chat.mucJoin('roomName','nickname','password')`
  * To leave a chat session: `Chat.mucLeave('exitMessage')`  
    + The exitMessage parameter is an optional exit message
- * To send a message to everyone in the chat conversation: `Chat.mucSendMessage('roomName','message','type')`
-   + Nickname: is an optional parameter that is the nickname you want others receiving the message to see you as...default is your Jid.
-   + Type: an optional parameter by default type='groupchat', but can also be chat for individual chat messages to a single jid.  
+ * To send a message to everyone in the chat conversation, use the same method as for individual methods: `Chat.sendMessage('roomName','message','type')`
+   + roomName: is the name of the muc room  you are sending the message to e.g (`exampleroom@conference.localhost`).
+   + Message: the chat message body text.  
+   + Type:Specify the type as **'groupchat'** instead of the default chat.  
+ Example: `Chat.sendMessage("examplechat@conference.localhost","hello everyone, welcome","groupchat")`
  * To send a presence message for room createion call: `Chat.mucSendPresence('roomName')`
  * To create an instant room: `Chat.mucCreateRoom('roomName')` **This is still a little buggy, not a stable feature**
  
