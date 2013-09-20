@@ -160,7 +160,7 @@ Strophe.addConnectionPlugin('muc', {
      msgiq - the unique id used to send the message
      */
 
-    message: function(room, nick, message, html_message, type) {
+    message: function(room, message, html_message, type) {
         var msg, msgid, parent, room_nick;
         //room_nick = this.test_append_nick(room, nick);
         Chat.log("roomNick", room_nick);
@@ -193,7 +193,7 @@ Strophe.addConnectionPlugin('muc', {
 //        msg.c("x", {
 //            xmlns: "jabber:x:event"
 //        });
-        Chat.log("msg sent",msg.tree());
+        Chat.log("Group message sent",msg.tree());
         this._connection.send(msg.tree());
         return msgid;
     },

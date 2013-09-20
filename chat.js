@@ -468,7 +468,7 @@ var Chat = {
     //in the chatRoom field specify....the chat room subdomain e.g roomname@groupchat.localhost
     mucSendMessage:function(roomName,message,nickname,type){
         var nickname = (nickname) ? nickname : Chat.getSubJID(Chat.connection.jid);
-        Chat.connection.muc.message(roomName,nickname,message,null,type);
+        Chat.connection.muc.message(roomName,message,null,type);
         //Chat.log("Sent message to: " + roomName);
     },
     log: function(){
