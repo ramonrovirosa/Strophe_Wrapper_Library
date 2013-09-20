@@ -88,7 +88,7 @@ Received Message are handled by: `Chat.receiveMessage`
    + Nickname: is an optional parameter that is the nickname you want others receiving the message to see you as...default is your Jid.
    + Type: an optional parameter by default type='groupchat', but can also be chat for individual chat messages to a single jid.  
  * To send a presence message for room createion call: `Chat.mucSendPresence('roomName')`
- * To create an instant room: `Chat.mucCreateRoom('roomName')` **This is still a little buggy, so might not work for you**
+ * To create an instant room: `Chat.mucCreateRoom('roomName')` **This is still a little buggy, not a stable feature**
  
 ####Presence(Online/Offline)####
   `Chat.presenceMessage` is an Object Hashmap that includes the received presence status messages from the users contacts.
