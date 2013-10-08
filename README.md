@@ -91,7 +91,7 @@ Received Message are handled by: `Chat.receiveMessage`
    + Type:Specify the type as **'groupchat'** instead of the default chat.  
  Example: `Chat.sendMessage("examplechat@conference.localhost","hello everyone, welcome","groupchat")`
  * To send a presence message for room createion call: `Chat.mucSendPresence('roomName')`
- * To create an instant room: `Chat.mucCreateRoom('roomName')` **This is still a little buggy, not a stable feature**
+ * To create an instant room: `Chat.mucCreateRoom('roomName')` Make sure the **roomName** you pass in is of the format: **'roomName@conference.localhost/nickName'**
  
 ####Presence(Online/Offline)####
   `Chat.presenceMessage` is an Object Hashmap that includes the received presence status messages from the users contacts.
