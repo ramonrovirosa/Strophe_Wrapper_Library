@@ -412,7 +412,6 @@ var Chat = {
     mucSendPresence:function(roomName){
         //http://xmpp.org/extensions/xep-0045.html#createroom
         var presence = $pres({
-            from : Chat.connection.jid,
             to:  roomName
         }).c('x',{'xmlns':'http://jabber.org/protocol/muc'});
         Chat.log(presence.tree());
@@ -420,6 +419,9 @@ var Chat = {
     },
     //Experimental Method
     mucCreateRoom:function(roomName){
+        //roomname must be of the format:
+        //'roomName@conference.localhost/nickName'
+        Chat.mucSendPresence(roomName);
         Chat.connection.muc.createInstantRoom(roomName,
             function(status){
                Chat.log("Succesfully created ChatRoom",status);
